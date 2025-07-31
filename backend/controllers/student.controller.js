@@ -28,7 +28,7 @@ const getAllStudents=async(req,res)=>{
 const getStudentById=async(req,res)=>{
     try{
         const {id}=req.params;
-        const student=await student.findById(id);
+        const student=await Student.findById(id);
 
          if (!student) {
             return res.status(404).json({ message: 'Student not found' });
@@ -45,7 +45,7 @@ const updateStudent=async(req,res)=>{
     try{
         const {id}=req.params;
         const {name,email}=req.body;
-        const updatedstudent=await student.findByIdAndUpdate(
+        const updatedstudent=await Student.findByIdAndUpdate(
              id,
              {name,email},
             { new: true }
@@ -62,7 +62,7 @@ const updateStudent=async(req,res)=>{
 const deleteStudent=async(req,res)=>{
     try{
         const {id}=req.params;
-        const deletedstudent=await student.findByIdAndDelete(id);
+        const deletedstudent=await Student.findByIdAndDelete(id);
           if (!deletedstudent) {
             return res.status(404).json({ message: 'Student not found' });
         }
