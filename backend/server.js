@@ -21,6 +21,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/studentDB',{
         console.log('Server running on port 5000');
     });
 })
+
 .catch((err)=>{
     console.log('Failed to connect MongoDB',err);
 });
