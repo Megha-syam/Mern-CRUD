@@ -1,6 +1,6 @@
 const Student=require('../models/student.model');
 
-exports.createStudent = async(req,res)=>{
+const createStudent = async(req,res)=>{
     try{
         const {id,name,email}=req.body;
 
@@ -11,11 +11,11 @@ exports.createStudent = async(req,res)=>{
         res.status(201).json(newStudent);
     }
     catch(error){
-        res.status(400).json({message:error.message});
+        res.status(500).json({message:error.message});
     }
 };
 
-exports.getStudents=async(req,res)=>{
+const getAllStudents=async(req,res)=>{
     try{
         const students=await Student.find();
         res.status(200).json(students);
@@ -25,9 +25,10 @@ exports.getStudents=async(req,res)=>{
     }
 };
 
-exports.getStudentById=async(req,res)=>{
+const getStudentById=async(req,res)=>{
     try{
-        const student=await student.findOne({id: req.params.id});
+        const {id}=req.params;
+        const student=await student.findById(id);
 
          if (!student) {
             return res.status(404).json({ message: 'Student not found' });
@@ -40,26 +41,29 @@ exports.getStudentById=async(req,res)=>{
     }
 };
 
-exports.updateStudent=async(req,res)=>{
+const updateStudent=async(req,res)=>{
     try{
-        const student=await student.findOneAndUpdate(
-             { id: req.params.id },
-            req.body,
+        const {id}=req.params;
+        const {name,email}=req.body;
+        const updatedstudent=await student.findByIdAndUpdate(
+             id,
+             {name,email},
             { new: true }
         );
-      if (!student) {
+      if (!updatedstudent) {
             return res.status(404).json({ message: 'Student not found' });
         }
-        res.status(200).json(student);
+        res.status(200).json(updatedstudent);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
-exports.deleteStudent=async(req,res)=>{
+const deleteStudent=async(req,res)=>{
     try{
-        const student=await student.findOneAndDelete({id: req.params.id});
-          if (!student) {
+        const {id}=req.params;
+        const deletedstudent=await student.findByIdAndDelete(id);
+          if (!deletedstudent) {
             return res.status(404).json({ message: 'Student not found' });
         }
         res.status(200).json({message:'student successfully deleted'});
@@ -67,4 +71,12 @@ exports.deleteStudent=async(req,res)=>{
     catch(error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+module.exports={
+    createStudent,
+    getAllStudents,
+    getStudentById,
+    updateStudent,
+    deleteStudent,
 };
