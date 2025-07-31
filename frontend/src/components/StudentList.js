@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import StudentTableRow from "./StudentTableRow";
+import { Link } from 'react-router-dom';
 
 const StudentList = () => {
   // 1️⃣ State to hold student list
